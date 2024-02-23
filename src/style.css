@@ -1,0 +1,34 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+    margin: 0;
+    padding: 0;
+    border: 0;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+@font-face {
+    font-family: 'BigBlueTerm Nerd Font';
+    src: url('/fonts/BigBlueTermPlusNerdFontMono-Regular.woff') format('woff'),
+}
+
+.link-container {
+    @apply w-auto h-auto lg:text-lg sm:text-sm rounded-md border-4 bg-secondary border-secondary lg:px-2 sm:px-1 text-black active:bg-black active:border-secondary active:text-secondary;
+}
+
+.link {
+    @apply w-full h-full text-center grid place-items-center;
+}
+
+.button {
+    @apply w-1/2 h-auto text-xl active:scale-110 self-center bg-secondary rounded-xl;
+}
+
+select {
+    @apply border-2 border-secondary text-secondary bg-black;
+}
