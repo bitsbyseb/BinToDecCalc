@@ -12,9 +12,10 @@ const $result = document.querySelector('#result');
 
 const toDecimal = (binary: string) => {
     let finalValue = 0;
-    for (let i = 0; i <= binary.length; i++) {
+    binary = reverseString(binary);
+    for (let i = binary.length-1;i>=0;i--) {
         if (binary[i] === '1') {
-            finalValue += 2 ** i;
+            finalValue = finalValue + (2**i);
         }
     }
     return finalValue;
@@ -22,20 +23,60 @@ const toDecimal = (binary: string) => {
 
 const toBinary = (decNumber: string) => {
     let numArr: dividedObj[] = [];
-    dividedByTwo(parseInt(decNumber), numArr);
-    let binary = '';
-    const finalBinary = numArr.reduce((acc, current) => {
-        if (current.quotient !== undefined) {
-            return acc += `${current.residue}${current.quotient}`
-        } else {
-            return acc += current.residue;
-        }
-    }, binary);
-    console.log(reverseString(finalBinary));
+    if (decNumber.startsWith('-')) {
+        decNumber = decNumber.slice(1);
+        dividedByTwo(parseInt(decNumber),numArr);
+        let binary = '';
+        let finalBinary = numArr.reduce((acc, current) => {
+            if (current.quotient !== undefined) {
+                return acc += `${current.residue}${current.quotient}`
+            } else {
+                return acc += current.residue;
+            }
+        }, binary);
 
-    if ($result !== null) {
-        writeResult($result, reverseString(finalBinary));
+        
+        finalBinary = (() => {
+            let arr = [...finalBinary];
+            
+            for  (let l = arr.length;l>=0;l--) {
+                if (arr[l] === '1') {
+                    arr[l] = '0';
+                } else {
+                    arr[l] = '1';
+                }
+            }
+
+            for (let l = arr.length;l>=0;l--) {
+                if (arr[l] === '0') {
+                    arr[l] = '1';
+                    break;
+                }
+            }   
+            
+            return arr.join('');
+        })();
+        
+        if ($result !== null) {
+            writeResult($result, reverseString(finalBinary));
+        }
+
+    } else {
+        dividedByTwo(parseInt(decNumber), numArr);
+        let binary = '';
+        const finalBinary = numArr.reduce((acc, current) => {
+            if (current.quotient !== undefined) {
+                return acc += `${current.residue}${current.quotient}`
+            } else {
+                return acc += current.residue;
+            }
+        }, binary);
+
+        if ($result !== null) {
+            writeResult($result, reverseString(finalBinary));
+        }
     }
+
 }
 
 const handleEvent = (e: Event) => {
